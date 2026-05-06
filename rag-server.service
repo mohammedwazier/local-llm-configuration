@@ -1,0 +1,15 @@
+[Unit]
+Description=RAG Knowledge Base Server (OpenAI-compatible proxy on :8090)
+After=network.target qdrant.service llama-qwen.service
+
+[Service]
+Type=simple
+Environment=HOME=/home/wazier
+Environment=PATH=/home/wazier/rag-training/.venv/bin:/usr/local/bin:/usr/bin:/bin
+WorkingDirectory=/home/wazier/rag-training
+ExecStart=/home/wazier/rag-training/.venv/bin/python /home/wazier/rag-training/rag_server.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

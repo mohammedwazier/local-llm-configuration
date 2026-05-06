@@ -1,0 +1,29 @@
+[Unit]
+Description=Qwen3.6-35B-A3B (MoE, Q4_K_M) llama-server — OpenAI-compatible API on 8080
+After=network.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+
+Environment=HF_HUB_OFFLINE=1
+Environment=PATH=/home/wazier/llama-cpp-turboquant/build/bin:/home/wazier/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin
+Environment=HOME=/home/wazier
+Environment=LD_LIBRARY_PATH=/home/wazier/llama-cpp-turboquant/build/bin:/home/wazier/bin
+
+ExecStart=/home/wazier/llama-cpp-turboquant/build/bin/llama-server \
+    -m /home/wazier/models/Qwen3.6-35B-A3B-GGUF/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf \
+    --alias qwen35b \
+    --host 0.0.0.0 --port 8080 \
+    -ngl 999 -ncmoe 35 -fa on \
+    --cache-type-k turbo4 --cache-type-v turbo3 \
+    --no-mmap --mlock \
+    -c 262144 -t 14 -b 2048 -ub 1024 -np 1 --jinja --metrics \
+    --draft-n 8 --spec-type ngram-mod
+
+Restart=on-failure
+RestartSec=15
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
