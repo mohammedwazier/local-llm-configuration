@@ -18,7 +18,7 @@ ExecStart=/home/wazier/llama-cpp-turboquant/build/bin/llama-server \
     -ngl 999 -ncmoe 35 -fa on \
     --cache-type-k turbo4 --cache-type-v turbo3 \
     --no-mmap --mlock \
-    -c 262144 -t 14 -b 2048 -ub 1024 -np 1 --jinja --metrics \
+    -c 262144 -t 14 -b 2048 -ub 1024 -np 1 --jinja     --chat-template-kwargs {\"enable_thinking\":false} --metrics \
     --draft-n 8 --spec-type ngram-mod
 
 Restart=on-failure
